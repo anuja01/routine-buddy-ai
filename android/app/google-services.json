@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "782668127131",
+    "project_id": "our-routine",
+    "storage_bucket": "our-routine.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782668127131:android:eedf8a062e17bf54cd9f3e",
+        "android_client_info": {
+          "package_name": "com.ourroutine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFgIKgXcg0wap_YLD0jQCi7rokpVDl5og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
