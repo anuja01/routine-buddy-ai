@@ -1,35 +1,18 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Card, Text } from 'react-native-paper';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Routines from './Routines';
+import Settings from './Settings';
 
-const Home = () => {
+// Create Bottom Tab Navigator
+const Tab = createBottomTabNavigator();
 
+const Home: React.FC = React.memo(() => {
   return (
-    <View style={styles.container}>
-      <Card>
-        <Card.Title title="Our Routine" />
-        <Card.Content>
-          <Text>Home page</Text>
-        </Card.Content>
-      </Card>
-    </View>
+    <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Screen name="Routines" component={Routines} />
+      <Tab.Screen name="Settings" component={Settings} />
+    </Tab.Navigator>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-    backgroundColor: '#f0f0f0',
-  },
-  input: {
-    marginBottom: 16,
-  },
-  greetingText: {
-    marginTop: 20,
-    fontSize: 20,
-  },
 });
 
 export default Home;

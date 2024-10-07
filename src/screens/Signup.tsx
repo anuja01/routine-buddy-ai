@@ -16,7 +16,7 @@ const signupValidationSchema = Yup.object().shape({
     .required('Email is required'),
 });
 
-const Signup = () => {
+const Signup: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   return (
     <View style={styles.container}>

@@ -25,7 +25,9 @@ function App(): React.JSX.Element {
       <PaperProvider>
         <SafeAreaProvider>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login">
+            <Stack.Navigator
+              initialRouteName="Login"
+              screenOptions={{headerShown: false}}>
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Signup" component={Signup} />
