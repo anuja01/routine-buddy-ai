@@ -24,6 +24,8 @@ target 'ourroutine' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'Firebase/Auth'
+
   target 'ourroutineTests' do
     inherit! :complete
     # Pods for testing

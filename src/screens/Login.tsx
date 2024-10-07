@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {TextInput, Button, Text} from 'react-native-paper';
+import {TextInput, Button, Text, Snackbar} from 'react-native-paper';
 import {Formik} from 'formik';
-import {useNavigation} from '@react-navigation/native';
+import {ParamListBase, useNavigation} from '@react-navigation/native';
 import * as Yup from 'yup';
+import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
+import {signInUser} from '../services/firebase';
 
 // Define the types for the form values
 interface LoginFormValues {
@@ -22,21 +24,34 @@ const loginValidationSchema = Yup.object().shape({
 });
 
 const LoginScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const [visible, setVisible] = useState(false);
+  const [message, setMessage] = useState('');
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   // Initial form values
   const initialValues: LoginFormValues = {
     email: '',
     password: '',
   };
 
+  const showToast = (msg: string) => {
+    setMessage(msg);
+    setVisible(true);
+  };
+  const onDismissSnackBar = () => setVisible(false);
+
   return (
     <View style={styles.container}>
       <Formik
         initialValues={initialValues}
         validationSchema={loginValidationSchema}
-        onSubmit={(values: LoginFormValues) => {
-          console.log(values);
-          // handle login
+        onSubmit={async (values: LoginFormValues) => {
+          try {
+            const user = await signInUser(values.email, values.password);
+            user && navigation.replace('Home');
+          } catch (error) {
+            showToast(`Sign in error:  ${error}`);
+            console.log('error');
+          }
         }}>
         {({
           handleChange,
@@ -82,12 +97,25 @@ const LoginScreen: React.FC = () => {
             </Button>
             <Text
               style={styles.link}
-              onPress={() => navigation.navigate("Signup")}>
+              onPress={() => navigation.navigate('Signup')}>
               Don't have an account? Sign Up
             </Text>
           </>
         )}
       </Formik>
+
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        duration={3000} // Duration in milliseconds
+        action={{
+          label: 'Close',
+          onPress: () => {
+            onDismissSnackBar();
+          },
+        }}>
+        {message}
+      </Snackbar>
     </View>
   );
 };

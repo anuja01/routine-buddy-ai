@@ -19,18 +19,15 @@ import Signup from './src/screens/Signup';
 const Stack = createStackNavigator();
 
 function App(): React.JSX.Element {
-  const user = false;
+  // const user = false;
   return (
     <GestureHandlerRootView>
       <PaperProvider>
         <SafeAreaProvider>
           <NavigationContainer>
             <Stack.Navigator initialRouteName="Login">
-              {user ? (
-                <Stack.Screen name="Home" component={Home} />
-              ) : (
-                <Stack.Screen name="Login" component={Login} />
-              )}
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Signup" component={Signup} />
             </Stack.Navigator>
           </NavigationContainer>

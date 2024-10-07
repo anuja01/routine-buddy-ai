@@ -3,21 +3,29 @@ import {View, StyleSheet} from 'react-native';
 import {TextInput, Button, Text} from 'react-native-paper';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {signUpUser} from '../services/firebase';
+import {ParamListBase, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from 'react-native-screens/lib/typescript/native-stack/types';
 
 const signupValidationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, 'Password is too short')
     .required('Password is required'),
+  email: Yup.string()
+    .email('Please enter a valid email')
+    .required('Email is required'),
 });
 
 const Signup = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{email: '', password: ''}}
         validationSchema={signupValidationSchema}
-        onSubmit={values => {
-          console.log('values', values);
+        onSubmit={async (values: {email: string; password: string}) => {
+          const user = await signUpUser(values.email, values.password);
+          user && navigation.replace('Home');
         }}>
         {({
           handleChange,
