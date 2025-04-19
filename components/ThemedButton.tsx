@@ -1,8 +1,8 @@
+import React from 'react';
+import { TouchableOpacity, Image, useWindowDimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { TouchableOpacity, Image } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { useTheme } from '@react-navigation/native';
-import React from 'react';
 
 export type ThemedButtonProps = {
   type?: 'primary' | 'secondary' | 'accent';
@@ -12,26 +12,37 @@ export type ThemedButtonProps = {
   onPress?: () => void;
 };
 
-const StyledButton = styled(TouchableOpacity)<{ background: string; size: 'small' | 'medium' | 'large' ; isTablet: boolean }>`
+const StyledButton = styled(TouchableOpacity)<{ background: string; size: 'small' | 'medium' | 'large'; isTablet: boolean }>`
   width: 100%;
-  max-width: ${(props) => (props.isTablet ? '480px' : '360px')};
+  max-width: ${(props) => (props.isTablet ? '440px' : '320px')};
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  padding-vertical: ${(props) => (props.size === 'small' ? '10px' : props.size === 'large' ? '22px' : '18px')};
-  padding-horizontal: 16px;
-  border-radius: 16px;
-  margin-vertical: 12px;
+  justify-content: flex-start;
+  padding-vertical: ${(props) =>
+    props.size === 'small' ? '8px' : props.size === 'large' ? '16px' : '12px'};
+  padding-horizontal: 24px;
+  border-radius: 20px;
+  margin-vertical: 8px;
   background-color: ${(props) => props.background};
   align-self: center;
 `;
 
-import { useWindowDimensions } from 'react-native';
+const IconWrapper = styled.View`
+  width: 20%;
+  justify-content: center;
+  align-items: center;
+`;
+
+const TextWrapper = styled.View`
+  width: 80%;
+  justify-content: center;
+`;
 
 const ButtonLabel = styled(ThemedText)<{ fontSize: number }>`
-  color: #fff;
+  color: #F4F1ED;
   font-size: ${(props) => props.fontSize}px;
-  margin-left: 12px;
+  font-weight: 500;
+  font-family: Baloo2-Bold;
 `;
 
 export function ThemedButton({ type = 'primary', size = 'medium', title, icon, onPress }: ThemedButtonProps) {
@@ -49,12 +60,32 @@ export function ThemedButton({ type = 'primary', size = 'medium', title, icon, o
 
   const { width, height } = useWindowDimensions();
   const isTablet = Math.min(width, height) >= 768;
-  const fontSize = size === 'small' ? (isTablet ? 30 : 16) : size === 'large' ? (isTablet ? 40 : 24) : (isTablet ? 36 : 20);
+
+  const fontSize =
+    size === 'small'
+      ? isTablet
+        ? 30
+        : 20
+      : size === 'large'
+      ? isTablet
+        ? 40
+        : 28
+      : isTablet
+      ? 36
+      : 24;
 
   return (
     <StyledButton background={backgroundMap[type]} size={size} onPress={onPress} isTablet={isTablet}>
-      {icon && <Image source={icon} style={{ width: fontSize * 2, height: fontSize * 2 }} resizeMode="contain" />}
-      <ButtonLabel type="title" fontSize={fontSize}>{title}</ButtonLabel>
+      {icon && (
+        <IconWrapper>
+          <Image source={icon} style={{ width: fontSize * 2, height: fontSize * 2 }} resizeMode="contain" />
+        </IconWrapper>
+      )}
+      <TextWrapper>
+        <ButtonLabel type="title" fontSize={fontSize}>
+          {title}
+        </ButtonLabel>
+      </TextWrapper>
     </StyledButton>
   );
 }
