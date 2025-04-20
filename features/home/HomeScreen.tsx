@@ -18,7 +18,7 @@ export default function HomeScreen() {
             <ButtonGroup>
                 <TouchableOpacity>
                     <ThemedButton
-                        title="Start my routine"
+                        title="My Morning"
                         type="primary"
                         size="large"
                         icon={require('@/assets/images/brush-teeth.png')}

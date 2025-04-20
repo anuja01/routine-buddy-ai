@@ -9,12 +9,13 @@ export type ThemedButtonProps = {
   title: string;
   size?: 'small' | 'medium' | 'large';
   icon?: any; // require() image or URI
+  fullWidth?: boolean;
+  disabled?: boolean;
   onPress?: () => void;
 };
 
-const StyledButton = styled(TouchableOpacity)<{ background: string; size: 'small' | 'medium' | 'large'; isTablet: boolean }>`
-  width: 100%;
-  max-width: ${(props) => (props.isTablet ? '440px' : '320px')};
+const StyledButton = styled(TouchableOpacity) <{ background: string; size: 'small' | 'medium' | 'large'; isTablet: boolean; fullWidth?: boolean }>`
+  width: ${(props) => (props.fullWidth ? (props.isTablet ? '440px' : '320px') : 'wrap-content')};
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -34,18 +35,18 @@ const IconWrapper = styled.View`
 `;
 
 const TextWrapper = styled.View`
-  width: 80%;
   justify-content: center;
+  align-items: center;
 `;
 
-const ButtonLabel = styled(ThemedText)<{ fontSize: number }>`
+const ButtonLabel = styled(ThemedText) <{ fontSize: number }>`
   color: #F4F1ED;
   font-size: ${(props) => props.fontSize}px;
   font-weight: 500;
   font-family: Baloo2-Bold;
 `;
 
-export function ThemedButton({ type = 'primary', size = 'medium', title, icon, onPress }: ThemedButtonProps) {
+export function ThemedButton({ type = 'primary', size = 'medium', title, icon, fullWidth = false, onPress }: ThemedButtonProps) {
   const { colors } = useTheme() as ReturnType<typeof useTheme> & {
     colors: {
       accent: string;
@@ -67,15 +68,15 @@ export function ThemedButton({ type = 'primary', size = 'medium', title, icon, o
         ? 30
         : 20
       : size === 'large'
-      ? isTablet
-        ? 40
-        : 28
-      : isTablet
-      ? 36
-      : 24;
+        ? isTablet
+          ? 40
+          : 28
+        : isTablet
+          ? 36
+          : 24;
 
   return (
-    <StyledButton background={backgroundMap[type]} size={size} onPress={onPress} isTablet={isTablet}>
+    <StyledButton background={backgroundMap[type]} size={size} onPress={onPress} isTablet={isTablet} fullWidth={fullWidth}>
       {icon && (
         <IconWrapper>
           <Image source={icon} style={{ width: fontSize * 2, height: fontSize * 2 }} resizeMode="contain" />
