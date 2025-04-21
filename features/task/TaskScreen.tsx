@@ -43,7 +43,7 @@ const TaskScreen = () => {
             const randomIndex = Math.floor(Math.random() * voiceClips.length);
             const { sound: newSound } = await Audio.Sound.createAsync(voiceClips[randomIndex]);
             sound.current = newSound;
-            // await newSound.playAsync();
+            await newSound.playAsync();
         } catch (err) {
             console.error("Failed to play audio:", err);
         }
