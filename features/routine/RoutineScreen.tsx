@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useWindowDimensions } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import { Audio } from 'expo-av';
 import styled from 'styled-components/native';
 import Animated, {
@@ -7,11 +7,8 @@ import Animated, {
     useAnimatedStyle,
     withTiming,
     Easing,
-    runOnJS,
 } from 'react-native-reanimated';
 
-
-import { BackButton } from '@/components/BackButton';
 import { ThemedButton } from '@/components/ThemedButton';
 import { ThemedText } from '@/components/ThemedText';
 import { useRouter } from 'expo-router';
@@ -57,8 +54,8 @@ const RoutineScreen = () => {
             const { sound: loadedSound } = await Audio.Sound.createAsync(audioClips[i]);
             sound.current = loadedSound;
 
-            await loadedSound.playAsync();
-            await waitForPlaybackToFinish(loadedSound);
+            // await loadedSound.playAsync();
+            // await waitForPlaybackToFinish(loadedSound);
 
             await loadedSound.unloadAsync();
 
@@ -89,15 +86,17 @@ const RoutineScreen = () => {
         <Background source={backgroundImage} resizeMode="cover">
             <HeaderContainer>
                 <CloseButton />
-                <ThemedText>Lovely morning</ThemedText>
+                <ThemedText type='subtitle'>Good morning, Shayen!</ThemedText>
             </HeaderContainer>
             <ContentContainer isHorizontal={isHorizontal}>
                 <ListContainer>
-                    <ThemedButton fullWidth onPress={() => router.push('/task')} title={'Brush my teeth'} icon={require('@/assets/images/brush-teeth.png')} />
+                    <View>
+                        <ThemedButton fullWidth onPress={() => router.push('/task')} title={'Brush my teeth'} icon={require('@/assets/images/brush-teeth.png')} />
+                    </View>
                     <ThemedButton fullWidth title={'Wash my face'} icon={require('@/assets/images/wash-face.png')} />
                     <ThemedButton fullWidth title={'Get dressed'} icon={require('@/assets/images/get-dressed.png')} />
                     <ThemedButton fullWidth title={'Eat breakfast'} icon={require('@/assets/images/eat-breakfast.png')} />
-                    <ThemedButton fullWidth title={'Go to preschool'} icon={require('@/assets/images/goto-preschool.png')} />
+                    <ThemedButton fullWidth disabled title={'Go to preschool'} icon={require('@/assets/images/goto-preschool.png')} />
                 </ListContainer>
                 <BuddyContainer isHorizontal={isHorizontal}>
                     <AnimatedBuddy
@@ -107,7 +106,9 @@ const RoutineScreen = () => {
                         style={animatedStyle}
                     />
                 </BuddyContainer>
-
+                <FinishButtonWrapper>
+                    <ThemedButton type='secondary' title={'Finish'}></ThemedButton>
+                </FinishButtonWrapper>
             </ContentContainer>
         </Background>
     );
@@ -146,7 +147,7 @@ const BuddyContainer = styled.View<{ isHorizontal: boolean }>`
             ? `
         flex: 1;
         justify-content: flex-end;
-        align-items: flex-end;
+        align-items: center;
         margin-top: 80px;
         `
             : `
@@ -163,4 +164,9 @@ const BuddyImage = styled.Image<{ size: number }>`
 
 const AnimatedBuddy = Animated.createAnimatedComponent(BuddyImage);
 
+const FinishButtonWrapper = styled.View`
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+`
 export default RoutineScreen;

@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Image, useWindowDimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { ThemedText } from './ThemedText';
-import { useTheme } from '@react-navigation/native';
+import { useTheme } from 'styled-components/native';
 
 export type ThemedButtonProps = {
   type?: 'primary' | 'secondary' | 'accent';
@@ -14,7 +14,7 @@ export type ThemedButtonProps = {
   onPress?: () => void;
 };
 
-const StyledButton = styled(TouchableOpacity) <{ background: string; size: 'small' | 'medium' | 'large'; isTablet: boolean; fullWidth?: boolean }>`
+const StyledButton = styled(TouchableOpacity) <{ background: string; size: 'small' | 'medium' | 'large'; isTablet: boolean; fullWidth?: boolean; disabled?: boolean }>`
   width: ${(props) => (props.fullWidth ? (props.isTablet ? '440px' : '320px') : 'wrap-content')};
   flex-direction: row;
   align-items: center;
@@ -24,7 +24,7 @@ const StyledButton = styled(TouchableOpacity) <{ background: string; size: 'smal
   padding-horizontal: 24px;
   border-radius: 20px;
   margin-vertical: 8px;
-  background-color: ${(props) => props.background};
+  background-color: ${(props) => props.disabled ? '#888888' : props.background};
   align-self: center;
 `;
 
@@ -46,7 +46,7 @@ const ButtonLabel = styled(ThemedText) <{ fontSize: number }>`
   font-family: Baloo2-Bold;
 `;
 
-export function ThemedButton({ type = 'primary', size = 'medium', title, icon, fullWidth = false, onPress }: ThemedButtonProps) {
+export function ThemedButton({ type = 'primary', size = 'medium', title, icon, fullWidth = false, disabled, onPress }: ThemedButtonProps) {
   const { colors } = useTheme() as ReturnType<typeof useTheme> & {
     colors: {
       accent: string;
@@ -55,7 +55,7 @@ export function ThemedButton({ type = 'primary', size = 'medium', title, icon, f
 
   const backgroundMap = {
     primary: colors.primary,
-    secondary: colors.card,
+    secondary: colors.secondary,
     accent: colors.accent,
   };
 
@@ -76,7 +76,7 @@ export function ThemedButton({ type = 'primary', size = 'medium', title, icon, f
           : 24;
 
   return (
-    <StyledButton background={backgroundMap[type]} size={size} onPress={onPress} isTablet={isTablet} fullWidth={fullWidth}>
+    <StyledButton background={backgroundMap[type]} size={size} onPress={onPress} isTablet={isTablet} fullWidth={fullWidth} disabled={disabled}>
       {icon && (
         <IconWrapper>
           <Image source={icon} style={{ width: fontSize * 2, height: fontSize * 2 }} resizeMode="contain" />

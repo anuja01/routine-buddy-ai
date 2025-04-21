@@ -6,12 +6,15 @@ import { ThemedButton } from '@/components/ThemedButton';
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
 
+const backgroundImage = require('@/assets/images/home-screen.png');
+
+
 export default function HomeScreen() {
 
     const router = useRouter(); 
     
     return (
-        <ThemedScreen>
+        <Background source={backgroundImage} resizeMode="cover">
             <WelcomeSection>
                 <ThemedText type="title">Hello, Shayen!</ThemedText>
             </WelcomeSection>
@@ -30,7 +33,7 @@ export default function HomeScreen() {
                     <ThemedButton type="secondary" title="Go to settings" size="medium" />
                 </TouchableOpacity>
             </ButtonGroup>
-        </ThemedScreen>
+        </Background>
     );
 }
 
@@ -40,4 +43,8 @@ const WelcomeSection = styled.View`
 
 const ButtonGroup = styled.View`
     margin-bottom: 32px;
+`;
+
+const Background = styled.ImageBackground`
+    flex: 1;
 `;

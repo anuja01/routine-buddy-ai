@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TouchableOpacity, useWindowDimensions } from 'react-native';
-import styled from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
 import { Audio } from 'expo-av';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
-import { BackButton } from '@/components/BackButton';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedButton } from '@/components/ThemedButton';
 import { CloseButton } from '@/components/CloseButton';
+import { CircularCountdownTimer } from '@/components/CoundownTimer';
 
 const backgroundImage = require('@/assets/images/routine.morning.background.png');
 const buddyBrushImage = require('@/assets/images/nicko-brush-teeth.png');
@@ -19,11 +19,14 @@ const voiceClips = [
     require('@/assets/audio/brushing-teeth-is-so-much-fun.mp3'),
 ];
 
+const taskComletionAudio = require('@/assets/audio/next-step.mp3');
+
 const TaskScreen = () => {
     const { width } = useWindowDimensions();
     const isLargeScreen = width >= 768;
     const sound = useRef<Audio.Sound | null>(null);
     const router = useRouter();
+    const theme = useTheme();
 
 
     const { task = "brushing my teeth" } = useLocalSearchParams(); // comes from routine list
@@ -40,9 +43,25 @@ const TaskScreen = () => {
             const randomIndex = Math.floor(Math.random() * voiceClips.length);
             const { sound: newSound } = await Audio.Sound.createAsync(voiceClips[randomIndex]);
             sound.current = newSound;
-            await newSound.playAsync();
+            // await newSound.playAsync();
         } catch (err) {
             console.error("Failed to play audio:", err);
+        }
+    };
+
+    const onComplete = async () => {
+        try {
+            const { sound: newSound } = await Audio.Sound.createAsync(taskComletionAudio);
+            sound.current = newSound;
+            await newSound.playAsync();
+            await newSound.setOnPlaybackStatusUpdate(async (status) => {
+                if (status.isLoaded && status.didJustFinish) {
+                    await newSound.unloadAsync();
+                    router.back();
+                }
+            });
+        } catch (err) {
+            console.error("Failed to play completion sound:", err);
         }
     };
 
@@ -51,9 +70,9 @@ const TaskScreen = () => {
             <CloseButton />
             <Header>
                 <ThemedText type="title">I am {task}</ThemedText>
-                <ThemedButton type='primary' title='I am done' onPress={() => router.back()} />
+                <CircularCountdownTimer duration={5} color="#D16E5B" />
+                <ThemedButton type='primary' title='complete' onPress={() => onComplete()} />
             </Header>
-
             <BuddyWrapper onPress={playRandomAudio}>
                 <BuddyImage
                     source={buddyBrushImage}
@@ -99,7 +118,6 @@ const Footer = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: space-between;
-    border: 1px solid #8DAE80;
     bottom: 20px;
     width: 100%;
     padding: 20px;

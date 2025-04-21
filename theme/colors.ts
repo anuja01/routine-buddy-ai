@@ -1,6 +1,7 @@
 const RoutineBuddyPalette = {
   light: {
     primary: '#8DAE80',
+    secondary: '#7A9BAE',
     background: '#F4F1ED',
     surface: '#FFFFFF',
     card: '#DDD4C4',
@@ -15,6 +16,7 @@ const RoutineBuddyPalette = {
   },
   dark: {
     primary: '#8DAE80',
+    secondary: '#F4F1ED',
     background: '#1E1E1E',
     surface: '#2C2C2C',
     card: '#3A3A3A',

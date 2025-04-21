@@ -31,10 +31,30 @@ export const lightTheme = {
   dark: false,
   colors: RoutineBuddyPalette.light,
   fonts: defaultFonts,
+  spacing: {
+    small: 8,
+    medium: 16,
+    large: 24,
+  },
+  borderRadius: {
+    small: 6,
+    medium: 12,
+    large: 24,
+  },
 };
 
 export const darkTheme = {
   dark: true,
   colors: RoutineBuddyPalette.dark,
   fonts: defaultFonts,
+  spacing: {
+    small: 8,
+    medium: 16,
+    large: 24,
+  },
+  borderRadius: {
+    small: 6,
+    medium: 12,
+    large: 24,
+  },
 };

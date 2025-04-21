@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import { ThemeProvider } from '@react-navigation/native';
+import { ThemeProvider } from 'styled-components/native';
 import { SafeAreaView, useColorScheme } from 'react-native';
 import { darkTheme, lightTheme } from '@/theme';
 import { useFonts } from 'expo-font';
@@ -35,7 +35,7 @@ export default function RootLayout() {
 
   return (
     <SafeAreaContainer>
-      <ThemeProvider value={colorScheme === 'dark' ? darkTheme : lightTheme}>
+      <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
         <Stack screenOptions={{ headerShown: false }} />
         <StatusBar style="auto" />
       </ThemeProvider>

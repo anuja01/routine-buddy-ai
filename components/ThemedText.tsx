@@ -1,6 +1,6 @@
 import { Text, TextProps, useWindowDimensions } from 'react-native';
 import { useMemo } from 'react';
-import { useTheme } from '@react-navigation/native';
+import { useTheme } from 'styled-components/native';
 
 export type ThemedTextProps = TextProps & {
   type?: 'default' | 'semiBold' | 'title' | 'subtitle' | 'link';
@@ -22,31 +22,31 @@ export function ThemedText({
         fontFamily: 'Nunito-Regular',
         fontSize: 20 * scale,
         lineHeight: 28 * scale,
-        color: colors.text,
+        color: colors.primary,
       },
       semiBold: {
         fontFamily: 'Nunito-SemiBold',
         fontSize: 20 * scale,
         lineHeight: 28 * scale,
-        color: colors.text
+        color: colors.primary
       },
       title: {
         fontFamily: 'Baloo2-Bold',
         fontSize: 32 * scale,
         lineHeight: 40 * scale,
-        color: colors.text
+        color: colors.primary
       },
       subtitle: {
         fontFamily: 'Nunito-SemiBold',
         fontSize: 24 * scale,
         lineHeight: 32 * scale,
-        color: colors.text
+        color: colors.primary
       },
       link: {
         fontFamily: 'Nunito-Regular',
         fontSize: 20 * scale,
         lineHeight: 28 * scale,
-        color: colors.text
+        color: colors.primary
       },
     };
 
