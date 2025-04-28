@@ -1,12 +1,6 @@
-import styled from 'styled-components/native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { ReactNode } from 'react';
-import { useAppTheme } from '@/hooks/useAppTheme';
-
-const ScreenContainer = styled.SafeAreaView<{ bg: string }>`
-  flex: 1;
-  padding: 24px;
-  background-color: ${(props) => props.bg};
-`;
+import { useAppTheme } from '@/theme/ThemeContext';
 
 type ThemedScreenProps = {
   children: ReactNode;
@@ -16,5 +10,16 @@ type ThemedScreenProps = {
 export function ThemedScreen({ children, style }: ThemedScreenProps) {
   const { colors } = useAppTheme();
 
-  return <ScreenContainer bg={colors.background} style={style}>{children}</ScreenContainer>;
+  return (
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }, style]}>
+      {children}
+    </SafeAreaView>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+  },
+});

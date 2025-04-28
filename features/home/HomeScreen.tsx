@@ -1,50 +1,83 @@
-import { TouchableOpacity } from 'react-native';
-import styled from 'styled-components/native';
+import { TouchableOpacity, StyleSheet, View, ImageBackground } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedScreen } from '@/components/ThemedScreen';
 import { ThemedButton } from '@/components/ThemedButton';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
 
 const backgroundImage = require('@/assets/images/home-screen.png');
 
-
 export default function HomeScreen() {
+  const router = useRouter();
 
-    const router = useRouter(); 
+  return (
+    <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.background}>
+      <View style={styles.welcomeSection}>
+        <ThemedText type="title">Hello, Shayen!</ThemedText>
+      </View>
+
+      <View style={styles.buttonGroup}>
+        <TouchableOpacity>
+          <ThemedButton
+            title="My Morning"
+            type="primary"
+            size="large"
+            icon={require('@/assets/images/brush-teeth.png')}
+            onPress={() =>
+              router.push({
+                pathname: '/routine',
+                params: {
+                  routineId: 'morning',
+                  userName: 'Shayen',
+                  steps: JSON.stringify([
+                    {
+                      title: 'Brush my teeth',
+                      icon: 'brush-teeth.png',
+                      onPress: () => router.push('/task'),
+                  status: 'next',
+                    },
+                    {
+                      title: 'Wash my face',
+                      icon: 'wash-face.png',
     
-    return (
-        <Background source={backgroundImage} resizeMode="cover">
-            <WelcomeSection>
-                <ThemedText type="title">Hello, Shayen!</ThemedText>
-            </WelcomeSection>
-            <ButtonGroup>
-                <TouchableOpacity>
-                    <ThemedButton
-                        title="My Morning"
-                        type="primary"
-                        size="large"
-                        icon={require('@/assets/images/brush-teeth.png')}
-                        onPress={() => router.push('/routine')}
-                    />
-                </TouchableOpacity>
+                    },
+                    {
+                      title: 'Get dressed',
+                      icon: 'get-dressed.png',
+                    
+                    },
+                    {
+                      title: 'Eat breakfast',
+                      icon: 'eat-breakfast.png',
+         
+                      disabled: false,
+                    },
+                    {
+                      title: 'Go to preschool',
+                      icon: 'goto-preschool.png',
+                      status: 'queued',
+                    },
+                  ]),
+                },
+              })
+            }
+          />
+        </TouchableOpacity>
 
-                <TouchableOpacity>
-                    <ThemedButton type="secondary" title="Go to settings" size="medium" />
-                </TouchableOpacity>
-            </ButtonGroup>
-        </Background>
-    );
+        <TouchableOpacity>
+          <ThemedButton type="secondary" title="Go to settings" size="medium" />
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
+  );
 }
 
-const WelcomeSection = styled.View`
-    margin-top: 48px;
-`;
-
-const ButtonGroup = styled.View`
-    margin-bottom: 32px;
-`;
-
-const Background = styled.ImageBackground`
-    flex: 1;
-`;
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
+  welcomeSection: {
+    marginTop: 48,
+  },
+  buttonGroup: {
+    marginBottom: 32,
+  },
+});

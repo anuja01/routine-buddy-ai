@@ -1,30 +1,32 @@
 import React from 'react';
 import { useRouter } from 'expo-router';
-import styled from 'styled-components/native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const IconContainer = styled.TouchableOpacity`
-  background-color: #8DAE80;
-  padding: 12px;
-  border-radius: 50px;
-  flex-direction: row;
-  align-items: center;
-  z-index: 10;
-`;
-
-const IconLabel = styled.Text`
-  color: #F4F1ED;
-  font-size: 16px;
-  margin-left: 6px;
-  font-weight: 500;
-`;
-
-export const IconButton = ({ label = "", icon = "checkmark-done", onIconClick }: { label?: string, icon?: React.ComponentProps<typeof Ionicons>['name'] }) => {
+export const IconButton = ({ label = "", icon = "checkmark-done", onIconClick }: { label?: string, icon?: React.ComponentProps<typeof Ionicons>['name'], onIconClick?: () => void }) => {
   const router = useRouter();
+
   return (
-    <IconContainer onPress={() => router.back()}>
+    <TouchableOpacity style={styles.container} onPress={() => router.back()}>
       <Ionicons name={icon} size={24} color="#F4F1ED" />
-      {!!label && <IconLabel>{label}</IconLabel>}
-    </IconContainer>
+      {!!label && <Text style={styles.label}>{label}</Text>}
+    </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#8DAE80',
+    padding: 12,
+    borderRadius: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  label: {
+    color: '#F4F1ED',
+    fontSize: 16,
+    marginLeft: 6,
+    fontWeight: '500',
+  },
+});

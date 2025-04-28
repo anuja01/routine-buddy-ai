@@ -1,6 +1,6 @@
 import { Text, TextProps, useWindowDimensions } from 'react-native';
 import { useMemo } from 'react';
-import { useTheme } from 'styled-components/native';
+import { useAppTheme } from '@/theme/ThemeContext';
 
 export type ThemedTextProps = TextProps & {
   type?: 'default' | 'semiBold' | 'title' | 'subtitle' | 'link';
@@ -12,7 +12,7 @@ export function ThemedText({
   ...rest
 }: ThemedTextProps) {
   const { width, height } = useWindowDimensions();
-  const {colors } = useTheme();
+  const { colors } = useAppTheme();
   const isTablet = Math.min(width, height) >= 768;
   const scale = isTablet ? 2 : 1;
 

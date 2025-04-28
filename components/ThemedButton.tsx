@@ -1,8 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, Image, useWindowDimensions } from 'react-native';
-import styled from 'styled-components/native';
+import { TouchableOpacity, Image, useWindowDimensions, View, StyleSheet } from 'react-native';
 import { ThemedText } from './ThemedText';
-import { useTheme } from 'styled-components/native';
+import { useAppTheme } from '@/theme/ThemeContext';
 
 export type ThemedButtonProps = {
   type?: 'primary' | 'secondary' | 'accent';
@@ -14,40 +13,8 @@ export type ThemedButtonProps = {
   onPress?: () => void;
 };
 
-const StyledButton = styled(TouchableOpacity) <{ background: string; size: 'small' | 'medium' | 'large'; isTablet: boolean; fullWidth?: boolean; disabled?: boolean }>`
-  width: ${(props) => (props.fullWidth ? (props.isTablet ? '440px' : '320px') : 'wrap-content')};
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding-vertical: ${(props) =>
-    props.size === 'small' ? '8px' : props.size === 'large' ? '16px' : '12px'};
-  padding-horizontal: 24px;
-  border-radius: 20px;
-  margin-vertical: 8px;
-  background-color: ${(props) => props.disabled ? '#888888' : props.background};
-  align-self: center;
-`;
-
-const IconWrapper = styled.View`
-  width: 20%;
-  justify-content: center;
-  align-items: center;
-`;
-
-const TextWrapper = styled.View`
-  justify-content: center;
-  align-items: center;
-`;
-
-const ButtonLabel = styled(ThemedText) <{ fontSize: number }>`
-  color: #F4F1ED;
-  font-size: ${(props) => props.fontSize}px;
-  font-weight: 500;
-  font-family: Baloo2-Bold;
-`;
-
 export function ThemedButton({ type = 'primary', size = 'medium', title, icon, fullWidth = false, disabled, onPress }: ThemedButtonProps) {
-  const { colors } = useTheme() as ReturnType<typeof useTheme> & {
+  const { colors } = useAppTheme() as ReturnType<typeof useAppTheme> & {
     colors: {
       accent: string;
     };
@@ -75,18 +42,53 @@ export function ThemedButton({ type = 'primary', size = 'medium', title, icon, f
           ? 36
           : 24;
 
+  const containerStyle = [
+    styles.button,
+    {
+      backgroundColor: disabled ? '#888888' : backgroundMap[type],
+      paddingVertical: size === 'small' ? 8 : size === 'large' ? 16 : 12,
+      width: fullWidth ? (isTablet ? 440 : 320) : 'auto',
+    }
+  ];
+
   return (
-    <StyledButton background={backgroundMap[type]} size={size} onPress={onPress} isTablet={isTablet} fullWidth={fullWidth} disabled={disabled}>
+    <TouchableOpacity style={containerStyle} onPress={onPress} disabled={disabled}>
       {icon && (
-        <IconWrapper>
+        <View style={styles.iconWrapper}>
           <Image source={icon} style={{ width: fontSize * 2, height: fontSize * 2 }} resizeMode="contain" />
-        </IconWrapper>
+        </View>
       )}
-      <TextWrapper>
-        <ButtonLabel type="title" fontSize={fontSize}>
+      <View style={styles.textWrapper}>
+        <ThemedText type="title" style={[styles.buttonLabel, { fontSize }]}>
           {title}
-        </ButtonLabel>
-      </TextWrapper>
-    </StyledButton>
+        </ThemedText>
+      </View>
+    </TouchableOpacity>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 24,
+    borderRadius: 20,
+    marginVertical: 8,
+    alignSelf: 'center',
+  },
+  iconWrapper: {
+    width: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonLabel: {
+    color: '#F4F1ED',
+    fontWeight: '500',
+    fontFamily: 'Baloo2-Bold',
+  },
+});

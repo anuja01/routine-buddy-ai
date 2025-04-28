@@ -1,18 +1,14 @@
 import { Stack } from 'expo-router';
-import { ThemeProvider } from 'styled-components/native';
-import { SafeAreaView, useColorScheme } from 'react-native';
-import { darkTheme, lightTheme } from '@/theme';
+import { ThemeProvider } from '@/theme/ThemeContext'; // <-- your own ThemeProvider
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import styled from 'styled-components/native';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   const [fontsLoaded] = useFonts({
     'Baloo2-Bold': require('@/assets/fonts/Baloo2-Bold.ttf'),
     'Nunito-Regular': require('@/assets/fonts/Nunito-Regular.ttf'),
@@ -31,18 +27,19 @@ export default function RootLayout() {
 
   if (!fontsLoaded) return null;
 
-  if (!fontsLoaded) return null;
-
   return (
-    <SafeAreaContainer>
-      <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+    <ThemeProvider>
+      <SafeAreaView style={styles.container}>
         <Stack screenOptions={{ headerShown: false }} />
         <StatusBar style="auto" />
-      </ThemeProvider>
-    </SafeAreaContainer>
+      </SafeAreaView>
+    </ThemeProvider>
+
   );
 }
 
-const SafeAreaContainer = styled(SafeAreaView)`
-    flex: 1;
-`;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

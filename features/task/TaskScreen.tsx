@@ -1,8 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { TouchableOpacity, useWindowDimensions } from 'react-native';
-import styled, { useTheme } from 'styled-components/native';
+import React, { useEffect, useRef } from 'react';
+import {
+    StyleSheet,
+    View,
+    ImageBackground,
+    Image,
+    TouchableOpacity,
+    useWindowDimensions,
+} from 'react-native';
 import { Audio } from 'expo-av';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useAppTheme } from '@/theme/ThemeContext';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedButton } from '@/components/ThemedButton';
@@ -12,7 +19,6 @@ import { CircularCountdownTimer } from '@/components/CoundownTimer';
 const backgroundImage = require('@/assets/images/routine.morning.background.png');
 const buddyBrushImage = require('@/assets/images/nicko-brush-teeth.png');
 
-// Example list of things buddy might say
 const voiceClips = [
     require('@/assets/audio/brush_teeth_together.mp3'),
     require('@/assets/audio/its-so-refreshing.mp3'),
@@ -26,13 +32,12 @@ const TaskScreen = () => {
     const isLargeScreen = width >= 768;
     const sound = useRef<Audio.Sound | null>(null);
     const router = useRouter();
-    const theme = useTheme();
+    const theme = useAppTheme();
 
-
-    const { task = "brushing my teeth" } = useLocalSearchParams(); // comes from routine list
+    const { task = 'brushing my teeth' } = useLocalSearchParams();
 
     useEffect(() => {
-        playRandomAudio()
+        playRandomAudio();
         return () => {
             sound.current?.unloadAsync();
         };
@@ -45,7 +50,7 @@ const TaskScreen = () => {
             sound.current = newSound;
             await newSound.playAsync();
         } catch (err) {
-            console.error("Failed to play audio:", err);
+            console.error('Failed to play audio:', err);
         }
     };
 
@@ -61,20 +66,21 @@ const TaskScreen = () => {
                 }
             });
         } catch (err) {
-            console.error("Failed to play completion sound:", err);
+            console.error('Failed to play completion sound:', err);
         }
     };
 
     return (
-        <Background source={backgroundImage} resizeMode="cover">
+        <ImageBackground source={backgroundImage} resizeMode="cover" style={styles.background}>
             <CloseButton />
-            <Header>
+            <View style={styles.header}>
                 <ThemedText type="title">I am {task}</ThemedText>
                 <CircularCountdownTimer duration={5} color="#D16E5B" />
-                <ThemedButton type='primary' title='complete' onPress={() => onComplete()} />
-            </Header>
-            <BuddyWrapper onPress={playRandomAudio}>
-                <BuddyImage
+                <ThemedButton type="primary" title="Complete" onPress={onComplete} />
+            </View>
+
+            <TouchableOpacity style={styles.buddyWrapper} onPress={playRandomAudio}>
+                <Image
                     source={buddyBrushImage}
                     resizeMode="contain"
                     style={{
@@ -82,43 +88,41 @@ const TaskScreen = () => {
                         height: isLargeScreen ? 400 : 248,
                     }}
                 />
-            </BuddyWrapper>
-            <Footer>
-                <ThemedButton type='accent' title='Skip' onPress={() => router.back()} />
-            </Footer>
-        </Background>
+            </TouchableOpacity>
+
+            <View style={styles.footer}>
+                <ThemedButton type="accent" title="Skip" onPress={() => router.back()} />
+            </View>
+        </ImageBackground>
     );
 };
 
+const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+    },
+    header: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+        gap: 12,
+        marginTop: 100,
+    },
+    buddyWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    footer: {
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        bottom: 20,
+        width: '100%',
+        padding: 20,
+    },
+});
+
 export default TaskScreen;
-
-const Background = styled.ImageBackground`
-    flex: 1;
-`;
-
-const Header = styled.View`
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    gap: 12px;
-    margin-top: 100px;
-`;
-
-const BuddyWrapper = styled(TouchableOpacity)`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-`;
-
-const BuddyImage = styled.Image``;
-
-const Footer = styled.View`
-    position: absolute;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: space-between;
-    bottom: 20px;
-    width: 100%;
-    padding: 20px;
-`;
