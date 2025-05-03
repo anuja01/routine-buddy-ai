@@ -1,59 +1,34 @@
-import { Text, TextProps, useWindowDimensions } from 'react-native';
-import { useMemo } from 'react';
+import React from 'react';
+import { Text, TextProps, TextStyle } from 'react-native';
 import { useAppTheme } from '@/theme/ThemeContext';
+import { CustomTheme } from '@/theme/types';
 
-export type ThemedTextProps = TextProps & {
-  type?: 'default' | 'semiBold' | 'title' | 'subtitle' | 'link';
-};
+type FontType = keyof CustomTheme['fonts'];
 
-export function ThemedText({
-  style,
-  type = 'default',
-  ...rest
-}: ThemedTextProps) {
-  const { width, height } = useWindowDimensions();
-  const { colors } = useAppTheme();
-  const isTablet = Math.min(width, height) >= 768;
-  const scale = isTablet ? 2 : 1;
+interface ThemedTextProps extends TextProps {
+  type?: FontType;
+  children: React.ReactNode;
+}
 
-  const textStyle = useMemo(() => {
-    const baseStyles = {
-      default: {
-        fontFamily: 'Nunito-Regular',
-        fontSize: 20 * scale,
-        lineHeight: 28 * scale,
-        color: colors.primary,
-      },
-      semiBold: {
-        fontFamily: 'Nunito-SemiBold',
-        fontSize: 20 * scale,
-        lineHeight: 28 * scale,
-        color: colors.primary
-      },
-      title: {
-        fontFamily: 'Baloo2-Bold',
-        fontSize: 32 * scale,
-        lineHeight: 40 * scale,
-        color: colors.primary
-      },
-      subtitle: {
-        fontFamily: 'Nunito-SemiBold',
-        fontSize: 24 * scale,
-        lineHeight: 32 * scale,
-        color: colors.primary
-      },
-      link: {
-        fontFamily: 'Nunito-Regular',
-        fontSize: 20 * scale,
-        lineHeight: 28 * scale,
-        color: colors.primary
-      },
-    };
-
-    return baseStyles[type] || baseStyles.default;
-  }, [scale, type, colors.primary]);
+export const ThemedText = ({ type = 'body', style, children, ...rest }: ThemedTextProps) => {
+  const theme = useAppTheme();
+  const font = theme.fonts[type];
 
   return (
-    <Text style={[textStyle, style]} {...rest} />
+    <Text
+      style={[
+        {
+          color: theme.colors.text,
+          fontFamily: font.fontFamily,
+          fontWeight: font.fontWeight as TextStyle['fontWeight'],
+          fontSize: font.fontSize ?? 14,
+          lineHeight: (font.fontSize ?? 14) * 1.4,
+        },
+        style,
+      ]}
+      {...rest}
+    >
+      {children}
+    </Text>
   );
-}
+};

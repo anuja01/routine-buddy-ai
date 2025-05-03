@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Image, useWindowDimensions, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, Image, useWindowDimensions, View, StyleSheet, ViewStyle } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { useAppTheme } from '@/theme/ThemeContext';
 
@@ -22,7 +22,7 @@ export function ThemedButton({ type = 'primary', size = 'medium', title, icon, f
 
   const backgroundMap = {
     primary: colors.primary,
-    secondary: colors.secondary,
+    secondary: colors.notification,
     accent: colors.accent,
   };
 
@@ -42,20 +42,18 @@ export function ThemedButton({ type = 'primary', size = 'medium', title, icon, f
           ? 36
           : 24;
 
-  const containerStyle = [
-    styles.button,
-    {
-      backgroundColor: disabled ? '#888888' : backgroundMap[type],
-      paddingVertical: size === 'small' ? 8 : size === 'large' ? 16 : 12,
-      width: fullWidth ? (isTablet ? 440 : 320) : 'auto',
-    }
-  ];
-
   return (
-    <TouchableOpacity style={containerStyle} onPress={onPress} disabled={disabled}>
+    <TouchableOpacity style={[
+      styles.button,
+      {
+        backgroundColor: disabled ? '#888888' : backgroundMap[type],
+        paddingVertical: size === 'small' ? 8 : size === 'large' ? 16 : 12,
+        width: fullWidth ? (isTablet ? 440 : 320) : 'auto',
+      },
+    ] as ViewStyle[]} onPress={onPress} disabled={disabled}>
       {icon && (
         <View style={styles.iconWrapper}>
-          <Image source={icon} style={{ width: fontSize * 2, height: fontSize * 2 }} resizeMode="contain" />
+          <Image src={icon} style={{ width: fontSize * 2, height: fontSize * 2 }} resizeMode="contain" />
         </View>
       )}
       <View style={styles.textWrapper}>
