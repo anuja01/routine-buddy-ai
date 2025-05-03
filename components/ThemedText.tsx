@@ -51,7 +51,7 @@ export function ThemedText({
     };
 
     return baseStyles[type] || baseStyles.default;
-  }, [scale, type]);
+  }, [scale, type, colors.primary]);
 
   return (
     <Text style={[textStyle, style]} {...rest} />

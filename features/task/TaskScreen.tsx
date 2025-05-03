@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Audio } from 'expo-av';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useAppTheme } from '@/theme/ThemeContext';
+// import { useAppTheme } from '@/theme/ThemeContext';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedButton } from '@/components/ThemedButton';
@@ -32,7 +32,6 @@ const TaskScreen = () => {
     const isLargeScreen = width >= 768;
     const sound = useRef<Audio.Sound | null>(null);
     const router = useRouter();
-    const theme = useAppTheme();
 
     const { task = 'brushing my teeth' } = useLocalSearchParams();
 

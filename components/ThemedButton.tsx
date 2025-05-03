@@ -7,7 +7,7 @@ export type ThemedButtonProps = {
   type?: 'primary' | 'secondary' | 'accent';
   title: string;
   size?: 'small' | 'medium' | 'large';
-  icon?: any; // require() image or URI
+  icon?: string;
   fullWidth?: boolean;
   disabled?: boolean;
   onPress?: () => void;

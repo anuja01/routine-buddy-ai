@@ -9,7 +9,9 @@ import { CloseButton } from '@/components/CloseButton';
 import { useRoutineStore } from '@/store/useRoutineStore';
 import { useTaskStore } from '@/store/useTaskStore';
 import { mockRoutines } from '@/mocks/mockData';
-import { mmkvStorage } from '@/store/mmkvStorage';
+// import { mmkvStorage } from '@/store/mmkvStorage';
+import { Task } from '@/types';
+import { CustomTheme } from '@/theme/types';
 
 const backgroundImage = require('@/assets/images/routine.morning.background.png');
 const buddyImage = require('@/assets/images/morning-routine-nicko.png');
@@ -18,8 +20,8 @@ const doneIcon = require('@/assets/images/done-tick.png');
 const crossIcon = require('@/assets/images/warning-cross.png');
 
 const RoutineScreen = () => {
-  const { colors } = useAppTheme();
-  const styles = useMemo(() => makeStyles(colors), [colors]);
+  const theme = useAppTheme();
+  const styles = useMemo(() => makeStyles(theme), [theme]);
 
   const sound = useRef<Audio.Sound | null>(null);
   const { width, height } = useWindowDimensions();
@@ -30,7 +32,7 @@ const RoutineScreen = () => {
   const arrowNudge = useRef(new Animated.Value(0)).current;
 
   const { routines, setRoutines } = useRoutineStore();
-  const { tasks, setTasks, toggleTaskCompleted } = useTaskStore();
+  const { tasks, setTasks } = useTaskStore();
 
   useEffect(() => {
     console.log('test: ', mockRoutines)
@@ -45,7 +47,7 @@ const RoutineScreen = () => {
       console.log('test: ', allTasks)
       setTasks(allTasks);
     }
-  }, []);
+  }, [routines.length, setRoutines, setTasks]);
 
   const { userName } = useLocalSearchParams<{
     userName: string;
@@ -122,7 +124,7 @@ const RoutineScreen = () => {
       </View>
       <View style={[styles.contentContainer, isHorizontal ? styles.horizontalLayout : styles.verticalLayout]}>
         <View style={styles.listContainer}>
-          {tasks.map((btn: any, index: number) => (
+          {tasks.map((btn: Task, index: number) => (
             <View key={index} style={styles.row}>
               <ThemedButton
                 fullWidth
@@ -156,7 +158,7 @@ const RoutineScreen = () => {
   );
 };
 
-const makeStyles = (colors: any) =>
+const makeStyles = (theme: CustomTheme) =>
   StyleSheet.create({
     background: {
       flex: 1,
@@ -171,7 +173,7 @@ const makeStyles = (colors: any) =>
     },
     subtitle: {
       fontSize: 18,
-      color: colors.text,
+      color: theme.colors.text,
     },
     contentContainer: {
       flex: 1,

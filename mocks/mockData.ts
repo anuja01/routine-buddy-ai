@@ -12,7 +12,7 @@ export const mockRoutines: Routine[] = [
         name: 'Brush my teeth',
         icon: 'brush-teeth.png',
         onPress: () => router.push('/task'),
-    status: 'next',
+        status: 'next',
       },
       {
         name: 'Wash my face',
@@ -22,7 +22,7 @@ export const mockRoutines: Routine[] = [
       {
         name: 'Get dressed',
         icon: 'get-dressed.png',
-      
+
       },
       {
         name: 'Eat breakfast',

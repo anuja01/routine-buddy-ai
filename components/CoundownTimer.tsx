@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Animated, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, Animated, TouchableOpacity } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { Audio } from 'expo-av';
 
