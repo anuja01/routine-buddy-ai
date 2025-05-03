@@ -4,7 +4,7 @@ export interface Task {
   icon: string
   isCompleted?: boolean;
   onPress?: () => void;
-  status?: 'next' | 'queued' | 'completed';
+  status?: 'next' | 'queued' | 'completed' | 'skipped';
   disabled?: boolean;
   isActive?: boolean;
 }

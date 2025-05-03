@@ -1,60 +1,40 @@
 import RoutineBuddyPalette from './colors';
+import { CustomTheme } from './types';
 
-const defaultFonts = {
-  regular: {
-    fontFamily: 'Nunito-Regular',
-    fontWeight: '400' as const,
-  },
-  medium: {
-    fontFamily: 'Nunito-SemiBold',
-    fontWeight: '500' as const,
-  },
-  light: {
-    fontFamily: 'Nunito-Light',
-    fontWeight: '300' as const,
-  },
-  thin: {
-    fontFamily: 'Nunito-ExtraLight',
-    fontWeight: '200' as const,
-  },
-  bold: {
-    fontFamily: 'Nunito-Bold',
-    fontWeight: '700' as const,
-  },
-  heavy: {
-    fontFamily: 'Nunito-Black',
-    fontWeight: '900' as const,
-  },
+const fonts = {
+  header: { fontFamily: 'Nunito-Black', fontWeight: '700', fontSize: 24, lineHeight: 28 },
+  title: { fontFamily: 'Nunito-Bold', fontWeight: '600', fontSize: 20, lineHeight: 24 },
+  label: { fontFamily: 'Nunito-SemiBold', fontWeight: '500', fontSize: 16, lineHeight: 20 },
+  body: { fontFamily: 'Nunito-Regular', fontWeight: '400', fontSize: 14, lineHeight: 18 },
+  caption: { fontFamily: 'System', fontWeight: '300', fontSize: 12, lineHeight: 16 },
 };
 
-export const lightTheme = {
+const spacing = {
+  small: 4,
+  medium: 8,
+  large: 12,
+  xlarge: 16,
+  xxlarge: 20,
+};
+
+const borderRadius = {
+  small: 32,
+  medium: 48,
+  large: 60,
+};
+
+export const lightTheme: CustomTheme = {
   dark: false,
   colors: RoutineBuddyPalette.light,
-  fonts: defaultFonts,
-  spacing: {
-    small: 8,
-    medium: 16,
-    large: 24,
-  },
-  borderRadius: {
-    small: 6,
-    medium: 12,
-    large: 24,
-  },
+  fonts: fonts,
+  spacing: spacing,
+  borderRadius: borderRadius,
 };
 
-export const darkTheme = {
+export const darkTheme: CustomTheme = {
   dark: true,
   colors: RoutineBuddyPalette.dark,
-  fonts: defaultFonts,
-  spacing: {
-    small: 8,
-    medium: 16,
-    large: 24,
-  },
-  borderRadius: {
-    small: 6,
-    medium: 12,
-    large: 24,
-  },
+  fonts: fonts,
+  spacing: spacing,
+  borderRadius: borderRadius,
 };
