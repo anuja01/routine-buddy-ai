@@ -1,5 +1,6 @@
 // mock/mockData.ts
 import { Routine } from '@/types/routine';
+import { router } from 'expo-router';
 
 export const mockRoutines: Routine[] = [
   {
@@ -7,21 +8,35 @@ export const mockRoutines: Routine[] = [
     title: 'Morning Routine',
     description: 'Start your day right!',
     tasks: [
-      { id: 'task-1', name: 'Brush Teeth', isCompleted: false },
-      { id: 'task-2', name: 'Get Dressed', isCompleted: false },
+      {
+        name: 'Brush my teeth',
+        icon: 'brush-teeth.png',
+        onPress: () => router.push('/task'),
+    status: 'next',
+      },
+      {
+        name: 'Wash my face',
+        icon: 'wash-face.png',
+
+      },
+      {
+        name: 'Get dressed',
+        icon: 'get-dressed.png',
+      
+      },
+      {
+        name: 'Eat breakfast',
+        icon: 'eat-breakfast.png',
+
+        disabled: false,
+      },
+      {
+        name: 'Go to preschool',
+        icon: 'goto-preschool.png',
+        status: 'queued',
+      },
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-  },
-  {
-    id: 'routine-2',
-    title: 'Evening Routine',
-    description: 'Prepare for sleep',
-    tasks: [
-      { id: 'task-3', name: 'Shower', isCompleted: false },
-      { id: 'task-4', name: 'Read Book', isCompleted: false },
-    ],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  },
+  }
 ];

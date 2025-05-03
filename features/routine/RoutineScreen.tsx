@@ -6,6 +6,10 @@ import { Audio } from 'expo-av';
 
 import { ThemedButton } from '@/components/ThemedButton';
 import { CloseButton } from '@/components/CloseButton';
+import { useRoutineStore } from '@/store/useRoutineStore';
+import { useTaskStore } from '@/store/useTaskStore';
+import { mockRoutines } from '@/mocks/mockData';
+import { mmkvStorage } from '@/store/mmkvStorage';
 
 const backgroundImage = require('@/assets/images/routine.morning.background.png');
 const buddyImage = require('@/assets/images/morning-routine-nicko.png');
@@ -24,13 +28,30 @@ const RoutineScreen = () => {
   const router = useRouter();
 
   const arrowNudge = useRef(new Animated.Value(0)).current;
-  const { routineId, userName, steps } = useLocalSearchParams<{
-    routineId: string;
+
+  const { routines, setRoutines } = useRoutineStore();
+  const { tasks, setTasks, toggleTaskCompleted } = useTaskStore();
+
+  useEffect(() => {
+    console.log('test: ', mockRoutines)
+
+    // mmkvStorage.clearAll();
+    console.log('test: ', mockRoutines[0].tasks)
+    if (routines.length === 0) {
+      setRoutines(mockRoutines);
+
+      // Flatten all tasks from all routines into task store
+      const allTasks = mockRoutines.flatMap(routine => routine.tasks);
+      console.log('test: ', allTasks)
+      setTasks(allTasks);
+    }
+  }, []);
+
+  const { userName } = useLocalSearchParams<{
     userName: string;
-    steps: string;
   }>();
 
-  const parsedSteps = steps ? JSON.parse(steps) : [];
+  // const parsedSteps = steps ? JSON.parse(steps) : [];
 
   useEffect(() => {
     startNudge();
@@ -101,11 +122,11 @@ const RoutineScreen = () => {
       </View>
       <View style={[styles.contentContainer, isHorizontal ? styles.horizontalLayout : styles.verticalLayout]}>
         <View style={styles.listContainer}>
-          {parsedSteps.map((btn: any, index: number) => (
+          {tasks.map((btn: any, index: number) => (
             <View key={index} style={styles.row}>
               <ThemedButton
                 fullWidth
-                title={btn.title}
+                title={btn.name}
                 icon={btn.icon}
                 onPress={() => router.push('/task')}
                 disabled={btn.disabled}
