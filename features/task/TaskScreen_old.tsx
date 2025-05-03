@@ -1,3 +1,6 @@
+// ⚠️ Temporary Reference File — Do Not Use in Production
+// Retained for reference only during development — [YourName, 2025-05-03]
+
 import React, { useEffect, useRef } from 'react';
 import {
     StyleSheet,

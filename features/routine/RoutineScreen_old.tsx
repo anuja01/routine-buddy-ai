@@ -1,3 +1,6 @@
+// ⚠️ Temporary Reference File — Do Not Use in Production
+// Retained for reference only during development — [Anuja, 2025-05-03]
+
 import React, { useEffect, useRef, useMemo } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Image, Animated, useWindowDimensions } from 'react-native';
 import { useAppTheme } from '@/theme/ThemeContext';

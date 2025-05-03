@@ -1,2 +1,2 @@
-import RoutineScreen from '@/features/routine/RoutineScreen';
+import RoutineScreen from '@/features/routine/RoutineScreen_old';
 export default RoutineScreen;
