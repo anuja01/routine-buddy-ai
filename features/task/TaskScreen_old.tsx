@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ⚠️ Temporary Reference File — Do Not Use in Production
 // Retained for reference only during development — [YourName, 2025-05-03]
 
@@ -14,10 +15,10 @@ import { Audio } from 'expo-av';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 // import { useAppTheme } from '@/theme/ThemeContext';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedButton } from '@/components/ThemedButton';
-import { CloseButton } from '@/components/CloseButton';
-import { CircularCountdownTimer } from '@/components/CoundownTimer';
+import { ThemedText } from '@/components_old/ThemedText';
+import { ThemedButton } from '@/components_old/ThemedButton';
+import { CloseButton } from '@/components_old/CloseButton';
+import { CircularCountdownTimer } from '@/components_old/CoundownTimer';
 
 const backgroundImage = require('@/assets/images/routine.morning.background.png');
 const buddyBrushImage = require('@/assets/images/nicko-brush-teeth.png');

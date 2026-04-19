@@ -1,2 +1,2 @@
-import TaskScreen from '@/features/task/TaskScreen_old';
+import TaskScreen from '@/features/task/TaskScreen';
 export default TaskScreen;

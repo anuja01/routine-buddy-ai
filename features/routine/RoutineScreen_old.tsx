@@ -1,3 +1,4 @@
+// @ts-nocheck
 // ⚠️ Temporary Reference File — Do Not Use in Production
 // Retained for reference only during development — [Anuja, 2025-05-03]
 
@@ -7,8 +8,8 @@ import { useAppTheme } from '@/theme/ThemeContext';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Audio } from 'expo-av';
 
-import { ThemedButton } from '@/components/ThemedButton';
-import { CloseButton } from '@/components/CloseButton';
+import { ThemedButton } from '@/components_old/ThemedButton';
+import { CloseButton } from '@/components_old/CloseButton';
 import { useRoutineStore } from '@/store/useRoutineStore';
 import { useTaskStore } from '@/store/useTaskStore';
 import { mockRoutines } from '@/mocks/mockData';
